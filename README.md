@@ -36,8 +36,8 @@ O sistema do Servidor Distribuído será composto por:
 | Lâmpada 02 (Sala)                    |  18  | Saída   |
 | Lâmpada 03 (Quarto 01)               |  27  | Saída   |
 | Lâmpada 04 (Quarto 02)               |  22  | Saída   |
-| Ar-Condicionado 01 (Quarto 01)       |  23  | Saída   |
-| Ar-Condicionado 02 (Quarto 02)       |  24  | Saída   |
+| Ar-Condicionado 01 (Quarto 01)       |  13  | Saída   |
+| Ar-Condicionado 02 (Quarto 02)       |  19  | Saída   |
 | Sensor de Presença 01 (Sala)         |  25  | Entrada |
 | Sensor de Presença 02 (Cozinha)      |  26  | Entrada |
 | Sensor Abertura 01 (Porta Cozinha)   |  05  | Entrada |
