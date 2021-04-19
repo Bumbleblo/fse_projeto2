@@ -1,3 +1,5 @@
+#ifndef __BME280_USERSPACE__
+#define __BME280_USERSPACE__
 
 /* Structure that contains identifier details used in example */
 struct identifier
@@ -12,3 +14,7 @@ struct identifier
 struct bme280_data readTemperatureData(struct bme280_dev *dev);
 
 void configure_bme280(struct bme280_dev *dev, struct identifier *id, char *i2c_path);
+void setupBME280(struct bme280_dev *dev, struct identifier *id, char *path);
+
+
+#endif

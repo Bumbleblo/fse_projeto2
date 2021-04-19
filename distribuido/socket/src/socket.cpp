@@ -96,7 +96,7 @@ SocketClient::SocketClient(char *ip, int port)
     int c_return = connect(socket_fd, (struct sockaddr*)&address, sizeof(address));
 
     if(c_return < 0){
-        std::cerr << "Connection error" << std::endl;
+        std::cerr << "Failed to connect into " << ip << " " << port  << std::endl;
 
         throw SocketException();
     }

@@ -24,8 +24,8 @@ clean:
 	- rm -rf build
 	- rm project
 
-run: build
-	./project 10.0.0.105
+run:
+	./project $(central_ip)
 
 zip: clean
 	zip -r project.zip *

@@ -346,3 +346,13 @@ struct bme280_data readTemperatureData(struct bme280_dev *dev)
 
     return comp_data;
 }
+
+void setupBME280(struct bme280_dev *dev, struct identifier *id, char *path){
+    configure_bme280(dev, id, path);
+    int code = bme280_init(dev);
+
+    if(code!=BME280_OK){
+        fprintf(stderr, "BME280 setup error\n");
+        exit(1);
+    }
+}

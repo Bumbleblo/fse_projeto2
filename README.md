@@ -52,7 +52,7 @@ O sistema do Servidor Distribuído será composto por:
 
 ### Compilação do servidor distribuido
 
-Vá para pasta src/distribuido/. Nesta pasta existe um Makefile que ajudará na compilação do projeto.
+Vá para pasta distribuido/. Nesta pasta existe um Makefile que ajudará na compilação do projeto.
 
 Para compilar use o comando abaixo:
 
@@ -63,25 +63,25 @@ make build
 Para executar:
 
 ```bash
-make run
-```
-
-O comando acima iniciará a conexão TCP com o IP definido no comando run. Para rodar em outro ambiente altere esse IP.
-Uma alternativa é executar o binário após o build do software.
-
-```bash
-./project <ip>
+make run central_ip="<ip do servidor>"
 ```
 
 ### Execução do servidor Central
 
-Mova para a pasta src/central/. O servidor central é implementado em python, para execução basta executar o comando abaixo.
+Mova para a pasta central/. O servidor central é implementado em python, para execução basta executar o comando abaixo.
 
 ```bash
 python main.py
 ```
 
 O servidor irá aguardar alguma conexão TCP feita pelo servidor distribuido e iniciará o software após isso.
+
+### Observações
+
+* Inicializar o central antes do distribuido. Após isso o distribuido pode ser desligado e ligado quantas vezes
+quiser, porém sem o servidor central o distribuído não irá aguardar conexão.
+
+* Tanto servidor central quanto distribuido trabalham com a espectivativa de que a porta de comunicação será a 8000
 
 ## 5. Observações sobre a implementação do projeto
 

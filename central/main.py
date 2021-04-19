@@ -6,6 +6,7 @@ import random
 from csv_logger import CSVFormatter
 from time import sleep
 
+from utils import gen_message, parse_commands
 
 # logger 
 logging.basicConfig(level=logging.DEBUG)
@@ -16,35 +17,7 @@ handler.setFormatter(CSVFormatter())
 logger = logging.getLogger(__name__)
 logger.addHandler(handler)
 
-
-# parse command
-
-command_regex = r'(?P<command>^\w+)\=(?P<args>[^$]+)'
-
-def parse_commands(string: str) -> [str, [str]]:
-
-    command = re.findall(command_regex, string)
-
-    command, args = command[0]
-    return command, args.split(':')
-
-# possible messages sended to distribuited server
-def gen_message():
-
-    while True:
-        command = random.choice(['AR', 'LAMP'])
-
-        if command == 'AR':
-            index = random.randint(1,2)
-        else:
-            index = random.randint(1,4)
-
-        value = random.randint(0, 1)
-
-        yield f'{command} {index} {value}'
-
-
-
+PORT = 8000
 
 if __name__ == '__main__':
 
@@ -53,7 +26,7 @@ if __name__ == '__main__':
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
 
         # setting host
-        server_socket.bind(('0.0.0.0', 8000))
+        server_socket.bind(('0.0.0.0', PORT))
         server_socket.listen(20)
 
         logger.info("Server iniciado, esperando conexões")
