@@ -8,6 +8,7 @@
 
 #include "socket.hpp"
 #include "bme280.h"
+#include "gpio.hpp"
 #include "linux_userspace.h"
 
 #define PORT 8000
@@ -24,7 +25,10 @@ void setupBME280(struct bme280_dev *dev, struct identifier *id, char *path){
     }
 }
 
+
+
 int main(int argc, char **argv){
+
 
     // bme280
     struct bme280_data sensor_data;
@@ -47,25 +51,37 @@ int main(int argc, char **argv){
     // threads
 
     char *rbuffer, sbuffer[100];
+    char command[20];
     int size;
+    int index, value;
 
     fsesocket::SocketClient msg_socket = fsesocket::SocketClient(centralIp, PORT);
 
+    gpio::setupGPIO(&msg_socket);
     while(true){
 
         // Sending sensor data
         sensor_data = readTemperatureData(&bme280_device);
-        sprintf(sbuffer, "SENSORDATA=%.2lf:%.2lf\0", sensor_data.temperature, sensor_data.humidity);
-        msg_socket.sendMessage(sbuffer, strlen(sbuffer));
+        sprintf(sbuffer, "SENSORDATA=%.2lf:%.2lf$\0", sensor_data.temperature, sensor_data.humidity);
+        msg_socket.sendMessage(sbuffer, 50);
 
         // Receive message
-        rbuffer = msg_socket.receiveMessage(100, &size);
+        rbuffer = msg_socket.receiveMessage(50, &size);
 
-        rbuffer[99]= '\0';
-        std::cout << rbuffer << std::endl;
 
-        free(rbuffer);
-        rbuffer = NULL;
+        if(size > 0){
+            rbuffer[49]= '\0';
+            std::cout << rbuffer << std::endl;
+
+            sscanf(rbuffer, "%s %d %d", command, &index, &value);
+
+            std::cout << command << " " << index << " " << value << std::endl;
+
+            gpio::handleCommand(command, index, value);
+            free(rbuffer);
+            rbuffer = NULL;
+        }
+
 
         // sleep time
         sleep(1);

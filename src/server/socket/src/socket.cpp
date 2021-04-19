@@ -77,7 +77,6 @@ int Socket::acceptConnection()
 SocketClient::SocketClient(char *ip, int port)
 {
 
-    s_mutex = new std::mutex();
 
     socket_fd = socket(AF_INET, SOCK_STREAM, 0);
 
@@ -110,21 +109,17 @@ void SocketClient::closeSocket()
 
 void SocketClient::sendMessage(char *buffer, int size)
 {
-    s_mutex->lock();
     send(socket_fd, buffer, size, MSG_EOR);
-    s_mutex->unlock();
 
 }
 
 char* SocketClient::receiveMessage(int size, ssize_t* rsize)
 {
 
-    s_mutex->lock();
     char *buffer = (char*)malloc(sizeof(char)*size);
 
     *rsize = recv(socket_fd, buffer, size, 0);
 
-    s_mutex->unlock();
 
     return buffer;
 

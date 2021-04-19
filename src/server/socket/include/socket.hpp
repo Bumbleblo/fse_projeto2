@@ -1,7 +1,9 @@
 #ifndef __SOCKET__
 #define __SOCKET__
 
-#include <mutex>
+#include <sys/socket.h>
+#include <netinet/in.h>
+
 
 namespace fsesocket{
 
@@ -36,7 +38,6 @@ class SocketClient{
         int socket_fd;
         int opt;
         struct sockaddr_in address;
-        std::mutex *s_mutex;
 
     public:
         SocketClient(char *ip, int port);
