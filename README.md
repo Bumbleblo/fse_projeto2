@@ -48,44 +48,51 @@ O sistema do Servidor Distribuído será composto por:
 | Sensor Abertura 06 (Janela Quarto 02)|  21  | Entrada |
 
 
-## 4. Requisitos
+## 4. Execução e compilação do Software
 
-Os sistema de controle possui os seguintes requisitos:
-1. O código do Servidor Distribuído deve ser desenvolvido em C/C++;
-2. O código do Servidor Central pode ser desenvolvido em Python, C ou C++;
-3. O servidor central tem as seguintes responsabilidades:  
-    3.1 Manter conexão com o servidor distribuído;  
-    3.2 Prover mecanismo para que o usuário possa acionar manualmente lâmpadas e aparelhos de ar-condicionado;   
-    3.3 Prover uma interface que mantenha atualizado o estado das entradas (sensores) e saídas (lâmpadas, etc.);  
-    3.4  Prover uma interface que mantenha o usuário atualizado sobre o estado da temperatura e umidade a cada 1 segundo;  
-    3.5 Prover mecanismo para acionamento de uma alarme que, quando estiver ligado, deve tocar um som de alerta ao detectar presenças ou abertura de portas/janelas;  
-    3.6 Manter log (Em arqvuio CSV) dos comandos acionados pelos usuários e do acionamento dos alarmes com data e hora e cada evento;  
-4. O Servidor distribuído deve fazer interface direta com os dispositivos com as seguintes responsabilidades;  
-    4.1 Manter os valores de temperatura / umidade atualizados a cada 1 segundo;  
-    4.2 Acionar Lâmpadas e Aparelhos de Ar-Condicionado (mantendo informação sobre seu estado) conforme comandos do Servidor Central e retornando uma mensagem de confirmação para o mesmo sobre o sucesso ou não do acionamento;  
-    4.3 Manter o estado dos sensores de presença e abertura de portas/janelas informando ao servidor central imediatamente (mensagem push) quando detectar o acionamento de qualquer um deles;  
-5. Os códigos em C/C++ devem possuir Makefile para compilação;
-6. Descrever no README do repositório o modo de instalação/execução e o modo de uso do programa.
+### Compilação do servidor distribuido
 
-## 5. Critérios de Avaliação
+Vá para pasta src/server/. Nesta pasta existe um Makefile que ajudará na compilação do projeto.
 
-A avaliação será realizada seguindo os seguintes critérios:
+Para compilar use o comando abaixo:
 
-|   ITEM    |   DETALHE  |   VALOR   |
-|-----------|------------|:---------:|
-|**Servidor Central**    |       |       |
-|**Comunicação TCP/IP**  |   Correta implementação de comunicação entre os servidores usando o protocolo TCP/IP. |   2,0   |
-|**Interface com o estado**  |   Interface apresentando o estado de cada dispositivo (entradas e saídas), a temperatura e a umidade.  |   1,0   |
-|**Interface (Acionamento)** |   Mecanismo para acionamento de dispositivos. |   1,0   |
-|**Acionamento do Alarme**   |   Mecanismo de ligar/desligar alarme e acionamento do alarme de acordo com o estado dos sensores. |   0,5   |
-|**Log (CSV)**   |   Geração de Log em arquivo CSV.  |   0,5 |
-|**Servidor Distribuído**    |       |       |
-|**Leitura de Temperatura / Umidade**    |   Leitura e armazenamento dos valores de temperatura / umidade a cada 1 segundo.  |   1,0   |
-|**Acionamento de Dispositivos** |   Correto acionamento de lâmpadas e aparelhos de ar-condicionado pelo comando do Servidor Central.    |   1,0   |
-|**Estado dos Sensores** |   Enviar como mensagem (Push) para o Servidor Central um alerta pelo acionamento dos sensores de presença / abertura de portas/janelas.   |   1,0  |
-|**Qualidade do Código** |   Utilização de boas práticas como o uso de bons nomes, modularização e organização em geral. |   2,0 |
-|**Pontuação Extra** |   Qualidade e usabilidade acima da média. |   1,0   |
+```bash
+make build
+```
 
+Para executar:
+
+```bash
+make run
+```
+
+O comando acima iniciará a conexão TCP com o IP definido no comando run. Para rodar em outro ambiente altere esse IP.
+Uma alternativa é executar o binário após o build do software.
+
+```bash
+./project <ip>
+```
+
+### Execução do servidor Central
+
+Mova para a pasta src/client/. O servidor central é implementado em python, para execução basta executar o comando abaixo.
+
+```bash
+python main.py
+```
+
+O servidor irá aguardar alguma conexão TCP feita pelo servidor distribuido e iniciará o software após isso.
+
+## 5. Observações sobre a implementação do projeto
+
+Alguns pontos foram deixados de lado nessa implementação:
+
+* Execução do áudio
+* Interface das entradas
+* Envio customizado do input
+
+Para diminuir a carência do último foi implementado um gerador de comandos válidos no servidor central que são enviados ao
+servidor distribuído. Todas as mensagens enviadas são logadas no arquivo report.csv.
 
 ## 6. Referências
 
