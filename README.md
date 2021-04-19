@@ -52,7 +52,7 @@ O sistema do Servidor Distribuído será composto por:
 
 ### Compilação do servidor distribuido
 
-Vá para pasta src/server/. Nesta pasta existe um Makefile que ajudará na compilação do projeto.
+Vá para pasta src/distribuido/. Nesta pasta existe um Makefile que ajudará na compilação do projeto.
 
 Para compilar use o comando abaixo:
 
@@ -75,7 +75,7 @@ Uma alternativa é executar o binário após o build do software.
 
 ### Execução do servidor Central
 
-Mova para a pasta src/client/. O servidor central é implementado em python, para execução basta executar o comando abaixo.
+Mova para a pasta src/central/. O servidor central é implementado em python, para execução basta executar o comando abaixo.
 
 ```bash
 python main.py
